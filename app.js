@@ -36,5 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/orders', (req, res) => {
-
+  io.emit('drinkBought', {
+     price: req.body.totalPrice
+  });
 });
