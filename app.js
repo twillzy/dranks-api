@@ -24,18 +24,22 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 io.on('connection', (socket) => {
   console.log('Client connected');
-  io.emit('hello sreeja', {hello: 'world'});
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
 app.get('/', (req, res) => {
-  const response = {hello: 'sreeja'};
-  io.emit(response);
+  const response = {hello: 'startcon'};
   res.json(response);
 });
 
 app.post('/orders', (req, res) => {
-  io.emit('drinkBought', {
-     price: req.body.totalPrice
+  const totalPrice = req.body.drinks.reduce((prev, next) => {
+    return prev.price + next.price;
   });
+
+  io.emit('drinkBought', {
+     totalPrice
+  });
+
+  res.json({totalPrice});
 });
