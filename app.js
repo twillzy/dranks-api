@@ -42,10 +42,6 @@ app.post('/breathalyzer-value/:drunkenness', (req, res) => {
 });
 
 app.post('/orders', (req, res) => {
-  const totalPrice = req.body.totalPrice;
-  io.emit('drinkBought', {
-     totalPrice
-  });
-
-  res.json({totalPrice});
+  io.emit('drinkBought', req.body);
+  res.json(req.body);
 });
