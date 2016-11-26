@@ -14,10 +14,11 @@ const server = app.listen(PORT, () => {
 
 const io = socketIO(server);
 
-app.use(bodyParser.urlencoded({ extended: false } ));
+app.use(bodyParser.urlencoded({extended: false}));
 
 io.on('connection', (socket) => {
   console.log('Client connected');
+  console.log(socket.request);
   io.emit('hello sreeja');
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
@@ -26,4 +27,7 @@ app.get('/', (req, res) => {
   const response = {hello: 'sreeja'};
   io.emit(response);
   res.json(response);
+});
+
+app.post('/orders', (req, res) => {
 });
