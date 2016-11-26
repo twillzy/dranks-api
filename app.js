@@ -32,6 +32,14 @@ app.get('/', (req, res) => {
   res.json(response);
 });
 
+app.post('/breathalyzer-value/:drunkenness', (req, res) => {
+  const drunkenness = req.params.drunkenness;
+  io.emit('breathalyzer', {
+    drunkenness
+  });
+  res.send(200);
+});
+
 app.post('/orders', (req, res) => {
   const totalPrice = req.body.totalPrice;
   io.emit('drinkBought', {
