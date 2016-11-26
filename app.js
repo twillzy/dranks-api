@@ -3,19 +3,27 @@
 const express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
+const bodyParser = require('body-parser');
+const app = express();
 
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, 'index.html');
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const server = app.listen(PORT, () => {
+  console.log('listening on 3000');
+});
 
 const io = socketIO(server);
 
+app.use(bodyParser.urlencoded({ extended: false } ));
+
 io.on('connection', (socket) => {
   console.log('Client connected');
+  io.emit('hello sreeja');
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+app.get('/', (req, res) => {
+  const response = {hello: 'sreeja'};
+  io.emit(response);
+  res.json(response);
+});
