@@ -33,10 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/orders', (req, res) => {
-  const totalPrice = req.body.drinks.reduce((prev, next) => {
-    return prev.price + next.price;
-  });
-
+  const totalPrice = req.body.totalPrice;
   io.emit('drinkBought', {
      totalPrice
   });
